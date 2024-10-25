@@ -1,17 +1,19 @@
-import { client } from '@/sanity/lib/client'
-import { POST_QUERY } from '@/sanity/lib/queries'
-import { notFound } from 'next/navigation'
-import Link from 'next/link'
+import { client } from '@/sanity/lib/client';
+import { POST_QUERY } from '@/sanity/lib/queries';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
-type PostIndexProps = { params: { slug: string } }
+type PostIndexProps = { params: { slug: string } };
 
-const options = { next: { revalidate: 60 } }
+const options = { next: { revalidate: 60 } };
 
 export default async function Page({ params }: PostIndexProps) {
-  const post = await client.fetch(POST_QUERY, params, options)
+  // Ensure `params` is resolved before destructuring
+  const { slug } = await params;
+  const post = await client.fetch(POST_QUERY, { slug }, options);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (
