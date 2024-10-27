@@ -15,7 +15,11 @@ export async function generateStaticParams() {
 type PostIndexProps = { params: { slug: string } }
 
 export default async function Page({ params }: PostIndexProps) {
-  const post = await sanityFetch({query: POST_QUERY, params})
+  const post = await sanityFetch({
+    query: POST_QUERY, 
+    params,
+    revalidate: 3600
+  })
 
   if (!post) {
     notFound()
