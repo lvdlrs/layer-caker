@@ -12,9 +12,10 @@ export async function generateStaticParams() {
   return slugs
 }
 
-type PostIndexProps = { params: { slug: string } }
+type PostIndexProps = { params: Promise<{ slug: string }> }
 
-export default async function Page({ params }: PostIndexProps) {
+export default async function Page(props: PostIndexProps) {
+  const params = await props.params;
   const post = await sanityFetch({
     query: POST_QUERY, 
     params,
