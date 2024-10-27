@@ -19,7 +19,7 @@ export default async function Page(props: PostIndexProps) {
   const post = await sanityFetch({
     query: POST_QUERY, 
     params,
-    revalidate: 3600
+    tags: [`post:${params.slug}`, 'author', 'category']
   })
 
   if (!post) {
