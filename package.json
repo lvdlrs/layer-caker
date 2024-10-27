@@ -15,6 +15,7 @@
     "@sanity/icons": "^3.4.0",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.62.2",
+    "dayjs": "^1.11.13",
     "next": "15.0.0-rc.1",
     "next-sanity": "^9.8.7",
     "react": "19.0.0-rc-cae764ce-20241025",
