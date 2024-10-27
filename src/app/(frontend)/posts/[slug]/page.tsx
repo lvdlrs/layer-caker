@@ -1,13 +1,21 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { sanityFetch } from '@/sanity/lib/live'
-import { POST_QUERY } from '@/sanity/lib/queries'
+import { client, sanityFetch } from '@/sanity/lib/client'
 import { notFound } from 'next/navigation'
 import { Post } from '@/components/Post'
+import { POST_QUERY, POSTS_SLUGS_QUERY } from "@/sanity/lib/queries";
+
+export async function generateStaticParams() {
+  const slugs = await client
+    .withConfig({useCdn: false})
+    .fetch(POSTS_SLUGS_QUERY);
+
+  return slugs
+}
 
 type PostIndexProps = { params: { slug: string } }
 
 export default async function Page({ params }: PostIndexProps) {
-  const {data: post} = await sanityFetch({query: POST_QUERY, params})
+  const post = await sanityFetch({query: POST_QUERY, params})
 
   if (!post) {
     notFound()
