@@ -28,8 +28,8 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({defaultApiVersion: apiVersion}),
     presentationTool({
+      resolve,
       previewUrl: {
-        resolve,
         previewMode: {
           enable: '/api/draft-mode/enable',
         },

@@ -17,9 +17,11 @@ export default async function Page({ params }: PostIndexProps) {
     notFound()
   }
 
+  const { isEnabled } = await draftMode()
+
   return (
     <main className="container mx-auto grid grid-cols-1 gap-6 p-12">
-      {draftMode().isEnabled ? (
+      {isEnabled ? (
         <PostPreview initial={initial} />
       ) : (
         <Post {...initial.data} />

@@ -13,11 +13,13 @@ export default async function Page() {
     { next: { tags: ['post', 'author', 'category'] } },
   )
 
+  const { isEnabled } = await draftMode()
+
   return (
     <main className="container mx-auto grid grid-cols-1 gap-6 p-12">
       <Title>Post Index</Title>
       <div className="flex flex-col gap-24 py-12">
-        {draftMode().isEnabled ? (
+        {isEnabled ? (
           <PostCardPreview initial={initial} />
         ) : (
           initial.data.map((post) => <PostCard key={post._id} {...post} />)

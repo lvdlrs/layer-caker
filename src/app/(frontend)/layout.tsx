@@ -3,7 +3,7 @@ import { Header } from '@/components/Header'
 import { LiveVisualEditing } from '@/components/LiveVisualEditing'
 import { draftMode } from 'next/headers'
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-white min-h-screen">
-        {draftMode().isEnabled && (
+        {(await draftMode()).isEnabled && (
           <a
             className="fixed right-0 bottom-0 bg-blue-500 text-white p-4 m-4"
             href="/api/draft-mode/disable"
@@ -21,7 +21,7 @@ export default function RootLayout({
         )}
         <Header />
         {children}
-        {draftMode().isEnabled && <LiveVisualEditing />}
+        {(await draftMode()).isEnabled && <LiveVisualEditing />}
       </body>
     </html>
   )
