@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    taint: true
+  },
   logging:{
     fetches: {
       fullUrl: true
