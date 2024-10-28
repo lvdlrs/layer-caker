@@ -1,34 +1,29 @@
-/* eslint-disable jsx-a11y/alt-text */
-import { client, sanityFetch } from '@/sanity/lib/client'
+import { draftMode } from 'next/headers'
+import { loadQuery } from '@/sanity/lib/loader'
 import { notFound } from 'next/navigation'
 import { Post } from '@/components/Post'
-import { POST_QUERY, POSTS_SLUGS_QUERY } from "@/sanity/lib/queries";
+import { POST_QUERY } from '@/sanity/lib/queries'
+import { POST_QUERYResult } from '@/sanity/types'
+import { PostPreview } from '@/components/PostPreview'
 
-export async function generateStaticParams() {
-  const slugs = await client
-    .withConfig({useCdn: false})
-    .fetch(POSTS_SLUGS_QUERY);
+type PostIndexProps = { params: { slug: string } }
 
-  return slugs
-}
-
-type PostIndexProps = { params: Promise<{ slug: string }> }
-
-export default async function Page(props: PostIndexProps) {
-  const params = await props.params;
-  const post = await sanityFetch({
-    query: POST_QUERY, 
-    params,
-    tags: [`post:${params.slug}`, 'author', 'category']
+export default async function Page({ params }: PostIndexProps) {
+  const initial = await loadQuery<POST_QUERYResult>(POST_QUERY, params, {
+    next: { tags: [`post:${params.slug}`, 'author', 'category'] },
   })
 
-  if (!post) {
+  if (!initial.data) {
     notFound()
   }
 
   return (
     <main className="container mx-auto grid grid-cols-1 gap-6 p-12">
-      <Post {...post} />
+      {draftMode().isEnabled ? (
+        <PostPreview initial={initial} />
+      ) : (
+        <Post {...initial.data} />
+      )}
     </main>
-  );
+  )
 }
