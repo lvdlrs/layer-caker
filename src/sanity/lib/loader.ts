@@ -9,9 +9,9 @@ import { token } from '@/sanity/lib/token'
 queryStore.setServerClient(client.withConfig({ token }))
 
 // Automatically handle draft mode
-export const loadQuery = ((query, params = {}, options = {}) => {
+export const loadQuery = (async (query, params = {}, options = {}) => {
   const usingCdn = client.config().useCdn
-  const isDraftMode = draftMode().isEnabled
+  const isDraftMode = (await draftMode()).isEnabled
 
   if (isDraftMode && !token) {
     throw new Error('Missing environment variable SANITY_API_READ_TOKEN')
