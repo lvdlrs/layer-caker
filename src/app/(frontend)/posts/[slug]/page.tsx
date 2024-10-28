@@ -9,8 +9,9 @@ import { PostPreview } from '@/components/PostPreview'
 type PostIndexProps = { params: { slug: string } }
 
 export default async function Page({ params }: PostIndexProps) {
-  const initial = await loadQuery<POST_QUERYResult>(POST_QUERY, params, {
-    next: { tags: [`post:${params.slug}`, 'author', 'category'] },
+  const param = await params
+  const initial = await loadQuery<POST_QUERYResult>(POST_QUERY, param, {
+    next: { tags: [`post:${ param.slug}`, 'author', 'category'] },
   })
 
   if (!initial.data) {
