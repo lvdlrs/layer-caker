@@ -31,7 +31,7 @@ export async function sanityFetch<QueryResponse>({
     throw new Error('Missing environment variable SANITY_API_READ_TOKEN')
   }
 
-  let queryOptions: QueryOptions = {}
+  const queryOptions: QueryOptions = {}
   let maybeRevalidate = revalidate
 
   if( isDraftMode ){
